@@ -349,255 +349,132 @@ def _stop_all():
         motor.stop(attachment_port, stop=motor.BRAKE)
 
 
-# =================================================================
-# RUN 1: follow the commands below from top to bottom.
-# Each await waits for its action before the next action starts.
-# Movement calls: target, P gain, I gain, D gain, seconds.
-# Straight targets are MOTOR degrees; turn targets are ROBOT degrees.
+# RUN SEQUENCES
+# Movement inputs: target, P gain, I gain, D gain, seconds.
+# Straight targets use motor degrees; turns use robot degrees.
+# Each await waits for that action before continuing.
 async def run_1():
     """Original Run 1; action order and parameters retained."""
-    # Use the original A/E drive pair.
     _setup_run()
-    # Use the starting direction as zero for this Run.
     _reset_heading()
-    # Step 1: request forward travel of 835 motor degrees (New PID).
     await moveforward_pid_new(835, 0.25, 0, 0.2, 4)
-    # Step 2: request a 60-degree left turn (old PID).
     await turning_right_pid(-60, 0.7, 0, 0.3, 1.5)
-    # Step 3: request a 60-degree right turn (old PID).
     await turning_right_pid(60, 1.3, 0, 0.3, 1.5)
-    # Step 4: request reverse travel of 850 motor degrees (old PID).
     await moveforward_pid(-850, 1.3, 0, 0.4, 2)
 
 
-# =================================================================
-# RUN 2: follow the commands below from top to bottom.
-# Each await waits for its action before the next action starts.
-# Movement calls: target, P gain, I gain, D gain, seconds.
-# Straight targets are MOTOR degrees; turn targets are ROBOT degrees.
 async def run_2():
     """Original Run 2; action order and parameters retained."""
-    # Use the original A/E drive pair.
     _setup_run()
-    # Use the starting direction as zero for this Run.
     _reset_heading()
-    # Step 1: request forward travel of 590 motor degrees (New PID).
     await moveforward_pid_new(590, 1.1, 0, 0.3, 4)
-    # Step 2: request reverse travel of 495 motor degrees (New PID).
     await moveforward_pid_new(-495, 1.3, 0, 0.4, 4)
-    # Step 3: request a 50-degree right turn (New PID).
     await turning_right_pid_new(50, 1.3, 0, 0.4, 4)
-    # Step 4: request forward travel of 605 motor degrees (New PID).
     await moveforward_pid_new(605, 1.3, 0, 0.4, 4)
-    # Step 5: turn attachment F counterclockwise for 0.5 motor rotations.
     await _attachment_turn('F', 'counterclockwise', 0.5)
-    # Step 6: request reverse travel of 600 motor degrees (old PID).
     await moveforward_pid(-600, 1.3, 0, 0.4, 2)
 
 
-# =================================================================
-# RUN 3: follow the commands below from top to bottom.
-# Each await waits for its action before the next action starts.
-# Movement calls: target, P gain, I gain, D gain, seconds.
-# Straight targets are MOTOR degrees; turn targets are ROBOT degrees.
 async def run_3():
     """Original Run 3; action order and parameters retained."""
-    # Use the original A/E drive pair.
     _setup_run()
-    # Use the starting direction as zero for this Run.
     _reset_heading()
-    # Step 1: turn attachment F counterclockwise for 0.4 motor rotations.
     await _attachment_turn('F', 'counterclockwise', 0.4)
-    # Step 2: request forward travel of 800 motor degrees (New PID).
     await moveforward_pid_new(800, 1.3, 0, 0.5, 4)
-    # Step 3: request a 90-degree right turn (New PID).
     await turning_right_pid_new(90, 1.3, 0, 0.4, 4)
-    # Step 4: request forward travel of 410 motor degrees (New PID).
     await moveforward_pid_new(410, 1.3, 0, 0.4, 4)
-    # Step 5: request a 90-degree left turn (New PID).
     await turning_right_pid_new(-90, 1.3, 0, 0.4, 4)
-    # Pause for 0.5 seconds before continuing.
     await _wait(0.5)
-    # Step 6: request forward travel of 130 motor degrees (old PID).
     await moveforward_pid(130, 1.3, 0, 0.4, 2)
-    # Set attachment F speed to 100% for its following moves.
     _set_attachment_speed('F', 100)
-    # Step 7: turn attachment F clockwise for 0.3 motor rotations.
     await _attachment_turn('F', 'clockwise', 0.3)
-    # Step 8: turn attachment F counterclockwise for 0.3 motor rotations.
     await _attachment_turn('F', 'counterclockwise', 0.3)
-    # Pause for 0.5 seconds before continuing.
     await _wait(0.5)
-    # Step 9: request forward travel of 132 motor degrees (old PID).
     await moveforward_pid(132, 1.4, 0, 0.4, 2)
     # Repeat the two indented turns twice. _ is an unused loop counter.
     for _ in range(2):
-        # Step 10: request a 5-degree right turn (old PID).
         await turning_right_pid(5, 3, 0, 0.4, 0.5)
-        # Step 11: request a 5-degree left turn (old PID).
         await turning_right_pid(-5, 3, 0, 0.4, 0.5)
-    # Pause for 0.5 seconds before continuing.
     await _wait(0.5)
-    # Step 12: request reverse travel of 180 motor degrees (old PID).
     await moveforward_pid(-180, 1.3, 0, 0.4, 2)
-    # Step 13: request a 130-degree left turn (old PID).
     await turning_right_pid(-130, 1.3, 0, 0.4, 1.5)
-    # Step 14: request forward travel of 770 motor degrees (old PID).
     await moveforward_pid(770, 1.3, 0, 0.4, 3)
 
 
-# =================================================================
-# RUN 4: follow the commands below from top to bottom.
-# Each await waits for its action before the next action starts.
-# Movement calls: target, P gain, I gain, D gain, seconds.
-# Straight targets are MOTOR degrees; turn targets are ROBOT degrees.
 async def run_4():
     """Original Run 4; action order and parameters retained."""
-    # Use the original A/E drive pair.
     _setup_run()
-    # Use the starting direction as zero for this Run.
     _reset_heading()
-    # Step 1: request forward travel of 1010 motor degrees (New PID).
     await moveforward_pid_new(1010, 1, 0, 0.5, 4)
-    # Step 2: request a 5-degree right turn (New PID).
     await turning_right_pid_new(5, 1, 0, 0.5, 4)
-    # Set attachment F speed to 100% for its following moves.
     _set_attachment_speed('F', 100)
-    # Step 3: turn attachment F clockwise for 0.4 motor rotations.
     await _attachment_turn('F', 'clockwise', 0.4)
-    # Step 4: request a 5-degree left turn (New PID).
     await turning_right_pid_new(-5, 1.3, 0, 0.4, 4)
-    # Step 5: request reverse travel of 595 motor degrees (New PID).
     await moveforward_pid_new(-595, 1.3, 0, 0.4, 4)
-    # Step 6: request a 90-degree right turn (New PID).
     await turning_right_pid_new(90, 1.3, 0, 0.4, 4)
-    # Step 7: request forward travel of 1790 motor degrees (New PID).
     await moveforward_pid_new(1790, 1.3, 0, 0.4, 6)
-    # Step 8: request a 90-degree left turn (New PID).
     await turning_right_pid_new(-90, 1.3, 0, 0.4, 4)
-    # Step 9: turn attachment B counterclockwise for 0.08 motor rotations.
     await _attachment_turn('B', 'counterclockwise', 0.08)
-    # Step 10: request forward travel of 645 motor degrees (New PID).
     await moveforward_pid_new(645, 1.3, 0, 0.4, 4)
-    # Step 11: turn attachment B clockwise for 0.2 motor rotations.
     await _attachment_turn('B', 'clockwise', 0.2)
-    # Step 12: request reverse travel of 115 motor degrees (New PID).
     await moveforward_pid_new(-115, 1.3, 0, 0.4, 4)
-    # Step 13: request forward travel of 30 motor degrees (New PID).
     await moveforward_pid_new(30, 1.3, 0, 0.4, 4)
-    # Step 14: turn attachment B counterclockwise for 0.5 motor rotations.
     await _attachment_turn('B', 'counterclockwise', 0.5)
-    # Step 15: request a 90-degree left turn (New PID).
     await turning_right_pid_new(-90, 1.3, 0, 0.4, 4)
-    # Step 16: request forward travel of 412 motor degrees (New PID).
     await moveforward_pid_new(412, 1.3, 0, 0.4, 4)
-    # Step 17: request a 135-degree right turn (New PID).
     await turning_right_pid_new(135, 1.3, 0, 0.4, 4)
-    # Step 18: request forward travel of 165 motor degrees (New PID).
     await moveforward_pid_new(165, 0.6, 0, 0.4, 4)
-    # Step 19: request reverse travel of 80 motor degrees (New PID).
     await moveforward_pid_new(-80, 1.3, 0, 0.4, 4)
-    # Step 20: request a 90-degree left turn (New PID).
     await turning_right_pid_new(-90, 1.3, 0, 0.4, 4)
-    # Step 21: request reverse travel of 1000 motor degrees (old PID).
     await moveforward_pid(-1000, 1.3, 0, 0.4, 3)
 
 
-# =================================================================
-# RUN 5: follow the commands below from top to bottom.
-# Each await waits for its action before the next action starts.
-# Movement calls: target, P gain, I gain, D gain, seconds.
-# Straight targets are MOTOR degrees; turn targets are ROBOT degrees.
 async def run_5():
     """Original Run 5; action order and parameters retained."""
-    # Use the original A/E drive pair.
     _setup_run()
-    # Step 1: request forward travel of 900 motor degrees (old PID).
     await moveforward_pid(900, 1.3, 0, 0.5, 2.5)
-    # Step 2: request a 45-degree right turn (old PID).
     await turning_right_pid(45, 1.3, 0, 0.4, 1.5)
-    # Step 3: request forward travel of 200 motor degrees (old PID).
     await moveforward_pid(200, 1.3, 0, 0.4, 1.5)
-    # Set attachment B speed to 50% for its following moves.
     _set_attachment_speed('B', 50)
-    # Step 4: turn attachment B clockwise for 0.6 motor rotations.
     await _attachment_turn('B', 'clockwise', 0.6)
-    # Step 5: turn attachment B counterclockwise for 0.6 motor rotations.
     await _attachment_turn('B', 'counterclockwise', 0.6)
-    # Step 6: request reverse travel of 120 motor degrees (old PID).
     await moveforward_pid(-120, 1.3, 0, 0.4, 1.5)
-    # Step 7: request a 30-degree right turn (old PID).
     await turning_right_pid(30, 1.3, 0, 0.4, 2)
-    # Step 8: request forward travel of 48 motor degrees (old PID).
     await moveforward_pid(48, 1.3, 0, 0.4, 1.5)
-    # Set attachment F speed to 25% for its following moves.
     _set_attachment_speed('F', 25)
-    # Step 9: turn attachment F clockwise for 0.26 motor rotations.
     await _attachment_turn('F', 'clockwise', 0.26)
-    # Step 10: request reverse travel of 200 motor degrees (old PID).
     await moveforward_pid(-200, 1.3, 0, 0.4, 1.5)
-    # Step 11: request a 85-degree right turn (old PID).
     await turning_right_pid(85, 1.3, 0, 0.4, 1)
-    # Step 12: request forward travel of 780 motor degrees (old PID).
     await moveforward_pid(780, 1.3, 0, 0.4, 2)
 
 
-# =================================================================
-# RUN 6: follow the commands below from top to bottom.
-# Each await waits for its action before the next action starts.
-# Movement calls: target, P gain, I gain, D gain, seconds.
-# Straight targets are MOTOR degrees; turn targets are ROBOT degrees.
 async def run_6():
     """Original Run 6; action order and parameters retained."""
-    # Use the original A/E drive pair.
     _setup_run()
-    # Step 1: request forward travel of 390 motor degrees (old PID).
     await moveforward_pid(390, 1.3, 0, 0.5, 2)
-    # Step 2: turn attachment F counterclockwise for 0.3 motor rotations.
     await _attachment_turn('F', 'counterclockwise', 0.3)
-    # Pause for 1 seconds before continuing.
     await _wait(1)
-    # Step 3: turn attachment B clockwise for 0.1 motor rotations.
     await _attachment_turn('B', 'clockwise', 0.1)
-    # Step 4: request reverse travel of 100 motor degrees (old PID).
     await moveforward_pid(-100, 2, 0, 0.4, 1.5)
-    # Step 5: request forward travel of 50 motor degrees (old PID).
     await moveforward_pid(50, 1.3, 0, 0.4, 1.5)
-    # Step 6: turn attachment F clockwise for 0.5 motor rotations.
     await _attachment_turn('F', 'clockwise', 0.5)
-    # Step 7: request reverse travel of 400 motor degrees (old PID).
     await moveforward_pid(-400, 1.3, 0, 0.4, 2)
 
 
-# =================================================================
-# RUN 7: follow the commands below from top to bottom.
-# Each await waits for its action before the next action starts.
-# Movement calls: target, P gain, I gain, D gain, seconds.
-# Straight targets are MOTOR degrees; turn targets are ROBOT degrees.
 async def run_7():
     """Original Run 7; action order and parameters retained."""
-    # Use the original A/E drive pair.
     _setup_run()
-    # Use the starting direction as zero for this Run.
     _reset_heading()
-    # Step 1: request forward travel of 416 motor degrees (New PID).
     await moveforward_pid_new(416, 1.3, 0, 0.5, 4)
-    # Pause for 0.5 seconds before continuing.
     await _wait(0.5)
-    # Set attachment F speed to 30% for its following moves.
     _set_attachment_speed('F', 30)
-    # Step 2: turn attachment F clockwise for 0.15 motor rotations.
     await _attachment_turn('F', 'clockwise', 0.15)
-    # Step 3: request reverse travel of 212 motor degrees (New PID).
     await moveforward_pid_new(-212, 1, 0, 0.5, 4)
-    # Step 4: request a 6-degree right turn (New PID).
     await turning_right_pid_new(6, 1, 0, 0.4, 2)
-    # Set attachment F speed to 5% for its following moves.
     _set_attachment_speed('F', 5)
-    # Step 5: turn attachment F counterclockwise for 0.1 motor rotations.
     await _attachment_turn('F', 'counterclockwise', 0.1)
-    # Step 6: request reverse travel of 150 motor degrees (old PID).
     await moveforward_pid(-150, 1.3, 0, 0.4, 1.5)
+
 
 
 # CHOOSE ONE RUN: a dictionary maps each number to its function.
