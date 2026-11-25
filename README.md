@@ -122,6 +122,43 @@ Try changing the forward duration from `1000` to `1500`, or `SPEED` from `200` t
 
 This is a timed movement demo: it does not promise an exact distance, a 90-degree turn, or a return to the exact starting point. Once all four directions work, save **First Moves**. You are ready to download the team's mission program in Section 5.
 
+### Optional: move an attachment motor
+
+Now try **one motor by itself**. The drive wheels stay still: attachment motor **B** turns 90°, pauses, then turns 90° back.
+
+Create another Python project called **First Attachment**, delete its starter code, and paste the complete program below. **Do not append it to First Moves or the seven-Run code.** Use an unloaded motor, or first confirm the attached mechanism can move this far without hitting a stop.
+
+```python
+# Optional First Moves exercise: only attachment motor B moves.
+# Use an unloaded motor, or confirm the mechanism allows this travel.
+from hub import port
+import motor
+import runloop
+
+ATTACHMENT = port.B  # Change to port.F to test the other attachment motor.
+SPEED = 200          # Motor degrees per second, not a percentage.
+
+async def main():
+    await runloop.sleep_ms(1000)  # Wait one second before starting.
+    try:
+        # Inputs: port, motor degrees to travel, signed speed.
+        # await waits for this movement to finish before the next line.
+        await motor.run_for_degrees(ATTACHMENT, 90, SPEED)
+        await runloop.sleep_ms(500)
+        # A negative speed turns the same motor in the opposite direction.
+        await motor.run_for_degrees(ATTACHMENT, 90, -SPEED)
+        print("Attachment exercise finished!")
+    finally:
+        motor.stop(ATTACHMENT, stop=motor.BRAKE)
+
+runloop.run(main())
+```
+
+Here, **90 means motor-shaft degrees**, not the robot's turning angle or necessarily the attachment's angle. `SPEED` sets how fast it moves; the minus sign reverses direction. Change `port.B` to `port.F` to try the other motor, one at a time.
+
+The two `await` calls run **one after the other**. This exercise does not run the attachment and drive wheels together. Returning the motor by the same angle also does not automatically home the attachment.
+
+
 ## 5. Download the code
 
 Download the files from the team repository:
